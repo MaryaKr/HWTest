@@ -1,8 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebDriver;
@@ -12,27 +9,32 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
-public class SuperTest2 {
+public class TestSuperTest2 {
 
-    private WebDriver driver;
+    private static WebDriver driver;
+
+    @BeforeAll
+    public static void downloadDriver() {
+        WebDriverManager.chromedriver().setup();
+
+    }
 
     @BeforeEach
-    public void enter() {
-        WebDriverManager.chromedriver().setup();
+     public void enter (){
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--kiosk");
         driver = new ChromeDriver(options);
     }
 
-    @AfterEach
-    public void close() {
+    @AfterAll
+    public static void close() {
         if (driver != null) {
             driver.quit();
         }
     }
 
     @Test
-    public void secondTest() {
+    public void testSecondTest() {
 
         driver.get("https://demo.w3layouts.com/demos_new/template_demo/03-10-2020/" +
                 "photoflash-liberty-demo_Free/685659620/" +
