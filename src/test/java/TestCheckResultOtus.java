@@ -1,14 +1,19 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class TestSuperTest1 {
+import java.time.Duration;
+
+public class TestCheckResultOtus {
 
     private static WebDriver driver;
+    private Duration second1 = Duration.ofSeconds(1);
 
     @BeforeAll
     public static void downloadDriver() {
@@ -17,7 +22,7 @@ public class TestSuperTest1 {
     }
 
     @BeforeEach
-    public void enter (){
+    public void enter() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("headless");
         driver = new ChromeDriver(options);
@@ -31,12 +36,18 @@ public class TestSuperTest1 {
     }
 
     @Test
-    public void testFirstTest() {
+    public void checkResultOtus() {
         driver.get("https://duckduckgo.com/");
+        driver.manage().timeouts().implicitlyWait(second1);
         driver.findElement(By.id("search_form_input_homepage")).sendKeys("ОТУС");
-        driver.findElement(By.id("search_form_input_homepage")).sendKeys(Keys.RETURN);
+        driver.findElement(By.id("search_button_homepage")).submit();
+        WebDriverWait wait = new WebDriverWait(driver, second1);
+        WebElement element = wait.until(ExpectedConditions
+                .visibilityOfElementLocated
+                        (By.xpath("//a[@href='https://otus.ru/' and @data-testid='result-title-a']")));
         Assertions.assertEquals("Онлайн‑курсы для профессионалов, дистанционное обучение современным ...",
-                driver.findElement(By.cssSelector("span.EKtkFWMYpwzMKOYr0GYm.LQVY1Jpkk8nyJ6HBWKAk")).getText());
+                driver.findElement(By.xpath("//a[@href='https://otus.ru/' and @data-testid='result-title-a']"))
+                        .getText());
     }
 }
 

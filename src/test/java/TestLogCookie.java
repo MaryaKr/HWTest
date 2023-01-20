@@ -10,12 +10,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-public class TestSuperTest3 {
+import java.time.Duration;
+
+public class TestLogCookie {
 
     private static WebDriver driver;
     private String login = "pacej80570@dni8.com";
     private String password = "Pacej80570_";
-    private static Logger log = LogManager.getLogger(TestSuperTest3.class);
+    private static Logger log = LogManager.getLogger(TestLogCookie.class);
+    private Duration second1 = Duration.ofSeconds(1);
 
     @BeforeAll
     public static void downloadDriver() {
@@ -38,14 +41,10 @@ public class TestSuperTest3 {
     }
 
     @Test
-    public void testThirdTest() {
+    public void logCookie() {
         driver.get("https://Otus.ru");
         driver.findElement(By.cssSelector(".header3__button-sign-in")).click();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        driver.manage().timeouts().implicitlyWait(second1);
         driver.findElement(By.cssSelector("form.new-log-reg__form.js-login .new-input")).sendKeys(login);
         driver.findElement(By.cssSelector("input.js-psw-input")).sendKeys(password);
         driver.findElement(By.cssSelector("form.new-log-reg__form.js-login button.new-button")).submit();

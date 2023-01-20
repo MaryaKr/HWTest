@@ -9,9 +9,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
-public class TestSuperTest2 {
+public class TestCheckOpenedPicture {
 
     private static WebDriver driver;
+
 
     @BeforeAll
     public static void downloadDriver() {
@@ -29,12 +30,13 @@ public class TestSuperTest2 {
     @AfterAll
     public static void close() {
         if (driver != null) {
+            driver.close();
             driver.quit();
         }
     }
 
     @Test
-    public void testSecondTest() {
+    public void CheckOpenedPicture() {
 
         driver.get("https://demo.w3layouts.com/demos_new/template_demo/03-10-2020/" +
                 "photoflash-liberty-demo_Free/685659620/" +
