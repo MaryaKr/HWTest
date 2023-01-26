@@ -13,7 +13,7 @@ import java.time.Duration;
 public class TestCheckResultOtus {
 
     private static WebDriver driver;
-    private Duration second1 = Duration.ofSeconds(1);
+    private Duration second5 = Duration.ofSeconds(5);
 
     @BeforeAll
     public static void downloadDriver() {
@@ -23,6 +23,7 @@ public class TestCheckResultOtus {
 
     @BeforeEach
     public void enter() {
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("headless");
         driver = new ChromeDriver(options);
@@ -37,12 +38,12 @@ public class TestCheckResultOtus {
 
     @Test
     public void checkResultOtus() {
+        WebDriverWait wait = new WebDriverWait(driver, second5);
         driver.get("https://duckduckgo.com/");
-        driver.manage().timeouts().implicitlyWait(second1);
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("search_form_input_homepage"))));
         driver.findElement(By.id("search_form_input_homepage")).sendKeys("ОТУС");
         driver.findElement(By.id("search_button_homepage")).submit();
-        WebDriverWait wait = new WebDriverWait(driver, second1);
-        WebElement element = wait.until(ExpectedConditions
+        wait.until(ExpectedConditions
                 .visibilityOfElementLocated
                         (By.xpath("//a[@href='https://otus.ru/' and @data-testid='result-title-a']")));
         Assertions.assertEquals("Онлайн‑курсы для профессионалов, дистанционное обучение современным ...",
